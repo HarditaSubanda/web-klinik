@@ -1,0 +1,63 @@
+<%- include('partials/header') %>
+
+<div class="container mx-auto px-6 py-10">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800 border-l-4 border-k_red pl-4">Dashboard Admin</h2>
+        <div class="text-gray-600">Halo, Admin</div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-k_red text-white">
+                    <th class="p-4">Tanggal & Jam</th>
+                    <th class="p-4">Nama Pasien</th>
+                    <th class="p-4">Poli & Dokter</th>
+                    <th class="p-4">Keluhan</th>
+                    <th class="p-4">Status</th>
+                    <th class="p-4">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                <% if(janji.length === 0) { %>
+                    <tr><td colspan="6" class="p-4 text-center text-gray-500">Belum ada data janji temu.</td></tr>
+                <% } %>
+                
+                <% janji.forEach(item => { %>
+<tr class="hover:bg-red-50 transition">
+    <td class="p-4">
+        <div class="font-bold"><%= item.tanggal %></div> 
+        <div class="text-sm text-gray-500"><%= item.jam %></div>
+    </td>
+    <td class="p-4">
+        <div class="font-bold"><%= item.nama_pasien %></div>
+        <div class="text-sm text-gray-500"><%= item.no_hp %></div>
+    </td>
+    <td class="p-4">
+        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded"><%= item.poli %></span>
+        <div class="text-sm mt-1"><%= item.dokter %></div>
+    </td>
+    <td class="p-4 text-sm text-gray-600 truncate max-w-xs"><%= item.keluhan %></td>
+    <% let warna = 'bg-yellow-200 text-yellow-800'; %>
+    <% if(item.status === 'Dikonfirmasi') warna = 'bg-blue-200 text-blue-800'; %>
+    <% if(item.status === 'Selesai') warna = 'bg-green-200 text-green-800'; %>
+    <% if(item.status === 'Dibatalkan') warna = 'bg-red-200 text-red-800'; %>
+    <td class="p-4">
+        <span class="<%= warna %> px-2 py-1 rounded text-xs font-bold"><%= item.status %></span>
+    </td>
+    <td class="p-4 flex gap-2">
+        <form action="/admin/<%= item.id %>?_method=PUT" method="POST">
+            </form>
+        
+        <form action="/admin/<%= item.id %>?_method=DELETE" method="POST" onsubmit="return confirm('Hapus?');">
+            <button type="submit">🗑</button>
+        </form>
+    </td>
+</tr>
+<% }) %>    
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

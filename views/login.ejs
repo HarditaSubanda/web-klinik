@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+<div class="flex items-center justify-center h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96 border-t-4 border-k_red">
+        <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Login Admin</h2>
+        <form action="/login" method="POST">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                <input type="text" name="username" class="w-full border p-2 rounded focus:outline-none focus:border-k_red">
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <input type="password" name="password" class="w-full border p-2 rounded focus:outline-none focus:border-k_red">
+            </div>
+            <button class="w-full bg-k_red text-white font-bold py-2 rounded hover:bg-red-800">MASUK</button>
+        </form>
+        <p class="text-xs text-gray-500 mt-4 text-center">Default: admin / admin123</p>
+    </div>
+</div>
+<%- include('partials/footer') %>
