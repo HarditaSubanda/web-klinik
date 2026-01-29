@@ -29,6 +29,13 @@ app.get('/booking', (req, res) => {
     res.render('booking');
 });
 
+app.get('/informasi', (req, res) => {
+    res.render('informasi', { 
+        title: 'Informasi Klinik',
+        user: req.session.user || null // Biar navbar tetap konsisten status loginnya
+    });
+});
+
 // 3. Proses Simpan Booking (CREATE)
 app.post('/booking', async (req, res) => {
     const { namaPasien, nik, noHp, poli, dokter, tanggal, jam, keluhan } = req.body;
