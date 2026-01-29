@@ -30,10 +30,7 @@ app.get('/booking', (req, res) => {
 });
 
 app.get('/informasi', (req, res) => {
-    res.render('informasi', { 
-        title: 'Informasi Klinik',
-        user: req.session.user || null // Biar navbar tetap konsisten status loginnya
-    });
+    res.render('informasi');
 });
 
 // 3. Proses Simpan Booking (CREATE)
