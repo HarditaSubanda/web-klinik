@@ -19,17 +19,43 @@
     </script>
 </head>
 <body class="bg-gray-50 font-sans">
+    
     <nav class="bg-k_red text-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold flex items-center gap-2">
-                <div class="bg-white text-k_red w-8 h-8 rounded-full flex items-center justify-center font-bold">+</div>
-                KLINIK MERAH PUTIH
-            </a>
-            <div class="space-x-4">
-                <a href="/" class="hover:text-gray-200 transition">Beranda</a>
-                <a href="/booking" class="hover:text-gray-200 transition">Daftar Berobat</a>
-                <a href="/informasi" class="hover:text-gray-200 transition">Informasi</a>
-                <a href="/login" class="bg-white text-k_red px-4 py-2 rounded-lg font-bold hover:bg-gray-100 transition">Login Staff</a>
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="/" class="text-2xl font-bold flex items-center gap-2">
+                    <div class="bg-white text-k_red w-8 h-8 rounded-full flex items-center justify-center font-bold">+</div>
+                    <span class="block">KLINIK MERAH PUTIH</span>
+                </a>
+
+                <button id="menu-btn" class="md:hidden focus:outline-none text-white hover:text-gray-200">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <div class="hidden md:flex space-x-4 items-center">
+                    <a href="/" class="hover:text-gray-200 transition">Beranda</a>
+                    <a href="/booking" class="hover:text-gray-200 transition">Daftar Berobat</a>
+                    <a href="/informasi" class="hover:text-gray-200 transition">Informasi</a>
+                    <a href="/login" class="bg-white text-k_red px-4 py-2 rounded-lg font-bold hover:bg-gray-100 transition">Login Staff</a>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden mt-4 flex flex-col space-y-4 pb-4 border-t border-red-500 pt-4">
+                <a href="/" class="hover:text-gray-200 transition block">Beranda</a>
+                <a href="/booking" class="hover:text-gray-200 transition block">Daftar Berobat</a>
+                <a href="/informasi" class="hover:text-gray-200 transition block">Informasi</a>
+                <a href="/login" class="bg-white text-k_red px-4 py-2 rounded-lg font-bold hover:bg-gray-100 transition block text-center">Login Staff</a>
             </div>
         </div>
     </nav>
+
+    <script>
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+    </script>
