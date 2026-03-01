@@ -28,29 +28,57 @@ app.get('/informasi', (req, res) => {
 // 3. Proses Simpan Booking (CREATE)
 app.post('/booking', async (req, res) => {
     const { namaPasien, nik, noHp, poli, dokter, tanggal, jam, keluhan } = req.body;
-    // Masukkan ke tabel 'appointments' (sesuai nama tabel di Supabase)
+
+    // CEK KONFLIK: apakah ada janji dengan dokter, tanggal, dan jam yang sama & sudah Dikonfirmasi
+    const { data: konflik, error: errCek } = await supabase
+        .from('appointments')
+        .select('id')
+        .eq('dokter', dokter)
+        .eq('tanggal', tanggal)
+        .eq('jam', jam)
+        .eq('status', 'Dikonfirmasi');
+
+    if (errCek) {
+        console.log(errCek);
+        return res.render('booking', {
+            error: 'Terjadi kesalahan saat memeriksa jadwal. Coba lagi.',
+            old: req.body
+        });
+    }
+
+    if (konflik && konflik.length > 0) {
+        return res.render('booking', {
+            error: `Jadwal pada tanggal ${tanggal} jam ${jam} untuk ${dokter} sudah penuh (telah dikonfirmasi). Silakan pilih tanggal atau jam yang lain.`,
+            old: req.body
+        });
+    }
+
+    // Jika tidak ada konflik, simpan data
     const { data, error } = await supabase
         .from('appointments')
-        .insert([
-            { 
-                nama_pasien: namaPasien, 
-                nik: nik, 
-                no_hp: noHp, 
-                poli: poli, 
-                dokter: dokter, 
-                tanggal: tanggal, 
-                jam: jam, 
-                keluhan: keluhan,
-                status: 'Menunggu'
-            }
-        ]);
+        .insert([{ 
+            nama_pasien: namaPasien, 
+            nik: nik, 
+            no_hp: noHp, 
+            poli: poli, 
+            dokter: dokter, 
+            tanggal: tanggal, 
+            jam: jam, 
+            keluhan: keluhan,
+            status: 'Menunggu'
+        }]);
+
     if (error) {
         console.log(error);
-        return res.send("Gagal menyimpan data. Cek koneksi internet.");
+        return res.render('booking', {
+            error: 'Gagal menyimpan data. Cek koneksi internet.',
+            old: req.body
+        });
     }
     
     res.redirect('/?pesan=sukses');
 });
+
 // 4. Login Admin (Hardcode)
 app.get('/login', (req, res) => {
     res.render('login');
