@@ -5,30 +5,45 @@
         <div class="bg-k_red p-4 text-white text-center">
             <h2 class="text-2xl font-bold">Formulir Pendaftaran Online</h2>
         </div>
+
+        <%-- Tampilkan pesan error jika ada --%>
+        <% if (error) { %>
+        <div class="mx-8 mt-6 bg-red-100 border border-red-400 text-red-800 rounded-lg px-4 py-3 flex items-start gap-3">
+            <span class="text-2xl">⚠️</span>
+            <div>
+                <p class="font-bold">Jadwal Tidak Tersedia</p>
+                <p class="text-sm mt-1"><%= error %></p>
+                <p class="text-sm mt-1 font-semibold">Silakan pilih <span class="underline">tanggal</span> atau <span class="underline">jam</span> yang lain.</p>
+            </div>
+        </div>
+        <% } %>
         
         <form action="/booking" method="POST" class="p-8 space-y-4">
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-gray-700 font-bold mb-2">Nama Lengkap</label>
-                    <input type="text" name="namaPasien" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+                    <input type="text" name="namaPasien" required value="<%= old.namaPasien || '' %>"
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
                 </div>
                 <div>
                     <label class="block text-gray-700 font-bold mb-2">NIK</label>
-                    <input type="text" name="nik" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+                    <input type="text" name="nik" required value="<%= old.nik || '' %>"
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-gray-700 font-bold mb-2">No. HP/WA</label>
-                    <input type="text" name="noHp" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+                    <input type="text" name="noHp" required value="<%= old.noHp || '' %>"
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
                 </div>
                 <div>
                     <label class="block text-gray-700 font-bold mb-2">Pilih Poli</label>
                     <select name="poli" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
-                        <option value="Umum">Poli Umum</option>
-                        <option value="Gigi">Poli Gigi</option>
-                        <option value="Anak">Poli Ibu & Anak</option>
+                        <option value="Umum"  <%= old.poli === 'Umum'  ? 'selected' : '' %>>Poli Umum</option>
+                        <option value="Gigi"  <%= old.poli === 'Gigi'  ? 'selected' : '' %>>Poli Gigi</option>
+                        <option value="Anak"  <%= old.poli === 'Anak'  ? 'selected' : '' %>>Poli Ibu & Anak</option>
                     </select>
                 </div>
             </div>
@@ -37,29 +52,30 @@
                 <div>
                     <label class="block text-gray-700 font-bold mb-2">Dokter</label>
                     <select name="dokter" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
-                        <option value="Dr. Budi Santoso">Dr. Budi Santoso</option>
-                        <option value="Dr. Siti Aminah">Dr. Siti Aminah</option>
-                        <option value="Dr. Andi Wijaya">Dr. Andi Wijaya</option>
+                        <option value="Dr. Budi Santoso" <%= old.dokter === 'Dr. Budi Santoso' ? 'selected' : '' %>>Dr. Budi Santoso</option>
+                        <option value="Dr. Siti Aminah"  <%= old.dokter === 'Dr. Siti Aminah'  ? 'selected' : '' %>>Dr. Siti Aminah</option>
+                        <option value="Dr. Andi Wijaya"  <%= old.dokter === 'Dr. Andi Wijaya'  ? 'selected' : '' %>>Dr. Andi Wijaya</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-gray-700 font-bold mb-2">Tanggal</label>
-                    <input type="date" name="tanggal" required class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
+                    <input type="date" name="tanggal" required value="<%= old.tanggal || '' %>"
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red <% if(error) { %>border-red-400<% } %>">
                 </div>
             </div>
 
             <div>
                 <label class="block text-gray-700 font-bold mb-2">Jam Periksa</label>
-                <select name="jam" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red">
-                    <option value="08:00 - 10:00">08:00 - 10:00</option>
-                    <option value="10:00 - 12:00">10:00 - 12:00</option>
-                    <option value="13:00 - 15:00">13:00 - 15:00</option>
+                <select name="jam" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red <% if(error) { %>border-red-400<% } %>">
+                    <option value="08:00 - 10:00" <%= old.jam === '08:00 - 10:00' ? 'selected' : '' %>>08:00 - 10:00</option>
+                    <option value="10:00 - 12:00" <%= old.jam === '10:00 - 12:00' ? 'selected' : '' %>>10:00 - 12:00</option>
+                    <option value="13:00 - 15:00" <%= old.jam === '13:00 - 15:00' ? 'selected' : '' %>>13:00 - 15:00</option>
                 </select>
             </div>
 
             <div>
                 <label class="block text-gray-700 font-bold mb-2">Keluhan (Opsional)</label>
-                <textarea name="keluhan" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red" rows="3"></textarea>
+                <textarea name="keluhan" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-k_red" rows="3"><%= old.keluhan || '' %></textarea>
             </div>
 
             <button type="submit" class="w-full bg-k_red text-white font-bold py-3 rounded-lg hover:bg-red-800 transition">
